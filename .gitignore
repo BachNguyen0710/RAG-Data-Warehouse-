@@ -14,5 +14,6 @@ ENV/
 .env.*
 
 # FastAPI Uploads (nếu không muốn commit file upload)
-backend/app/storage/*
-!backend/app/storage/.gitkeep
+# .gitignore
+backend/storage/*
+!backend/storage/.gitkeep
