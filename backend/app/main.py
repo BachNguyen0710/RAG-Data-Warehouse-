@@ -1,14 +1,24 @@
 from fastapi import FastAPI
-from backend.app.core.config import settings
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(
-    title= settings.PROJECT_NAME,
-    version = "1.0.0"
-              )
+from app.core.config import settings
+from app.api import documents, chat, auth
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-@app.get("/user/{user_id}")
-async def get_user(user_id: int):
-    return {"user_id": user_id}
+app = FastAPI(title=settings.PROJECT_NAME, version="0.1.0")
+
+# Cho phép frontend gọi API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # địa chỉ Vite dev server
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Đăng ký các router
+app.include_router(documents.router)
+app.include_router(chat.router)
+app.include_router(auth.router)
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "app": settings.PROJECT_NAME}

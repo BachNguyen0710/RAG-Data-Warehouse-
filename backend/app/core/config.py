@@ -1,10 +1,12 @@
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
+_BASE_DIR = Path(__file__).parent.parent.parent
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "RAG data warehouse project"
     SECRET_KEY: str = "change-me"
-    UPLOAD_DIR: Path = Path("storage")
+    UPLOAD_DIR: Path = _BASE_DIR / "storage"
     MAX_FILE_SIZE_MB: int = 100
 
 
@@ -18,22 +20,17 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL(self) -> str:
-        """Build connection string tự động từ các biến trên."""
         driver = self.SQL_DRIVER.replace(" ", "+")
-
         if self.SQL_TRUSTED_CONNECTION:
-            # Windows Authentication — không cần username/password
             return (
                 f"mssql+pyodbc://@{self.SQL_SERVER}/{self.SQL_DATABASE}"
                 f"?driver={driver}&TrustServerCertificate=yes"
             )
-        # SQL Server Authentication
         return (
             f"mssql+pyodbc://{self.SQL_USERNAME}:{self.SQL_PASSWORD}"
             f"@{self.SQL_SERVER}/{self.SQL_DATABASE}"
             f"?driver={driver}&TrustServerCertificate=yes"
         )
-
     class Config:
         env_file = ".env"
 
