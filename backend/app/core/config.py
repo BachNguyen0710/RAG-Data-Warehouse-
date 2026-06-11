@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     SQL_DRIVER: str = "ODBC Driver 18 for SQL Server"
     SQL_TRUSTED_CONNECTION: bool = False 
 
+    #Qdrant
+    QDRANT_HOST: str = "localhost"
+    QDRANT_PORT: int = 6333
+    QDRANT_COLLECTION: str = "documents"
+    EMBEDDING_DIM: int = 1536 
+
     @property
     def DATABASE_URL(self) -> str:
         driver = self.SQL_DRIVER.replace(" ", "+")
