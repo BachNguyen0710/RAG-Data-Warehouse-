@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     SQL_USERNAME: str = "sa"
     SQL_PASSWORD: str = ""
     SQL_DRIVER: str = "ODBC Driver 18 for SQL Server"
-    SQL_TRUSTED_CONNECTION: bool = False  # True nếu dùng Windows Auth
+    SQL_TRUSTED_CONNECTION: bool = False 
 
     @property
     def DATABASE_URL(self) -> str:

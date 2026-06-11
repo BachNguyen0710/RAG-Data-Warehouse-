@@ -12,6 +12,7 @@ ENV/
 # Environment Variables
 .env
 .env.*
+!.env.example
 
 # FastAPI Uploads (nếu không muốn commit file upload)
 # .gitignore
